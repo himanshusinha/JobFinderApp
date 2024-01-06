@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Platform} from 'react-native';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
 import styles from './styles';
 import firestore from '@react-native-firebase/firestore';
@@ -80,7 +80,7 @@ const HomeScreen = () => {
                   borderRadius: moderateScale(10),
                   marginHorizontal: moderateScale(20),
                   padding: moderateScale(10),
-                  marginVertical: moderateScale(3),
+                  marginTop: Platform.OS === 'android' ? moderateScale(50) : 20,
                 }}>
                 <Text
                   style={{

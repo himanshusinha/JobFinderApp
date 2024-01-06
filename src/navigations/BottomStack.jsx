@@ -39,7 +39,7 @@ const BottomStack = ({focused}) => {
               <View
                 style={{
                   borderTopWidth: 1,
-                  borderColor: focused ? colors.BLACK : colors.GRAY,
+                  borderColor: focused ? colors.BLACK : 'transparent',
                   bottom: moderateScale(14),
                   width: moderateScale(60),
                 }}></View>
@@ -65,7 +65,7 @@ const BottomStack = ({focused}) => {
               <View
                 style={{
                   borderTopWidth: 1,
-                  borderColor: focused ? colors.BLACK : colors.GRAY,
+                  borderColor: focused ? colors.BLACK : 'transparent',
                   bottom: moderateScale(14),
                   width: moderateScale(60),
                 }}></View>
@@ -91,7 +91,7 @@ const BottomStack = ({focused}) => {
               <View
                 style={{
                   borderTopWidth: 1,
-                  borderColor: focused ? colors.BLACK : colors.GRAY,
+                  borderColor: focused ? colors.BLACK : 'transparent',
                   bottom: moderateScale(14),
                   width: moderateScale(60),
                 }}></View>
@@ -116,7 +116,7 @@ const BottomStack = ({focused}) => {
               <View
                 style={{
                   borderTopWidth: 1,
-                  borderColor: focused ? colors.BLACK : colors.GRAY,
+                  borderColor: focused ? colors.BLACK : 'transparent',
                   bottom: moderateScale(14),
                   width: moderateScale(60),
                 }}></View>
@@ -141,7 +141,7 @@ const BottomStack = ({focused}) => {
               <View
                 style={{
                   borderTopWidth: 1,
-                  borderColor: focused ? colors.BLACK : colors.GRAY,
+                  borderColor: focused ? colors.BLACK : 'transparent',
                   bottom: moderateScale(14),
                   width: moderateScale(60),
                 }}></View>
