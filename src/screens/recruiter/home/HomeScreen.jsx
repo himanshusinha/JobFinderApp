@@ -19,7 +19,6 @@ const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient);
 const HomeScreen = () => {
   const [jobData, setJobData] = useState([]);
   const [storedId, setStoredId] = useState('');
-  console.log(storedId);
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   useEffect(() => {
@@ -28,7 +27,7 @@ const HomeScreen = () => {
         const snapshot = await firestore().collection('jobs').get();
         const data = snapshot.docs.map(doc => ({
           id: doc.id,
-          
+
           ...doc.data(),
         }));
 

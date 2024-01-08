@@ -58,7 +58,7 @@ const EditPostScreen = () => {
   }, [jobData, useFocued]);
 
   const [storedName, setStoredName] = useState('');
-  const [storedId, setStoredId] = useState();
+  const [storedId, setStoredId] = useState('');
   useEffect(() => {
     const getNameFromStorage = async () => {
       try {

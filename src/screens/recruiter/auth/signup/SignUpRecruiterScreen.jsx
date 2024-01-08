@@ -23,7 +23,6 @@ const SignUpRecruiterScreen = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [docId, setDocId] = useState('');
-  console.log(docId);
   const [badName, setBadName] = useState('');
   const [badEmail, setBadEmail] = useState('');
   const [badContact, setBadContact] = useState('');
@@ -168,13 +167,14 @@ const SignUpRecruiterScreen = () => {
         // ... (rest of your code)
       })
       .then(() => {
-        AsyncStorage.setItem('id', idd);
+        AsyncStorage.setItem('id', userId);
         AsyncStorage.setItem('name', name);
         AsyncStorage.setItem('email', email);
         AsyncStorage.setItem('contact', contact);
         AsyncStorage.setItem('company', company);
         AsyncStorage.setItem('address', address);
         AsyncStorage.setItem('password', password);
+
         setUserId();
         setName('');
         setEmail('');

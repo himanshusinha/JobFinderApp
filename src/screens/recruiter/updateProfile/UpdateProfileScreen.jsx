@@ -189,7 +189,7 @@ const UpdateProfileScreen = () => {
 
     firestore()
       .collection('job_posters')
-      .doc(id)
+      .doc(userId)
       .update({
         userId,
         name,

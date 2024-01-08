@@ -12,24 +12,31 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const [name, setName] = useState('');
+  const [userName, setUserName] = useState('');
   const isFocused = useIsFocused();
-
+  const [profileImageUrl, setProfileImageUrl] = useState('');
+  console.log(profileImageUrl);
   const logout = async () => {
     try {
       await AsyncStorage.clear();
-      setIsLoading(false);
       navigation.navigate(routes.INITIAL_SCREEN);
     } catch (error) {
       console.error('Error logging out:', error);
-      setIsLoading(false);
     }
   };
   useEffect(() => {
     const fetchStoredName = async () => {
       try {
         const storedName = await AsyncStorage.getItem('updatedName');
-        if (storedName !== null) {
+        const userName = await AsyncStorage.getItem('name');
+        console.log(userName);
+        let image = await AsyncStorage.getItem('profileImageUrl');
+        if (image != null) {
+          setProfileImageUrl(image);
+        }
+        if (storedName !== null && userName !== null) {
           setName(storedName);
+          setUserName(userName);
         }
       } catch (error) {
         console.error('Error fetching stored name from AsyncStorage:', error);
@@ -37,23 +44,35 @@ const ProfileScreen = () => {
     };
 
     fetchStoredName();
-  }, [name, isFocused]);
+  }, [isFocused]);
 
   return (
     <WrapperContainer style={styles.wrapperContainer}>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Image
-          source={images.USER}
-          style={{
-            width: moderateScale(80),
-            height: moderateScale(80),
-            borderRadius: moderateScale(40),
-            marginTop: moderateScale(80),
-          }}
-        />
+        {profileImageUrl != '' ? (
+          <Image
+            source={{uri: profileImageUrl}}
+            style={{
+              width: moderateScale(120),
+              height: moderateScale(120),
+              borderRadius: moderateScale(60),
+              marginTop: moderateScale(80),
+            }}
+          />
+        ) : (
+          <Image
+            source={images.USER}
+            style={{
+              width: moderateScale(80),
+              height: moderateScale(80),
+              borderRadius: moderateScale(40),
+              marginTop: moderateScale(80),
+            }}
+          />
+        )}
         <View style={{marginTop: moderateScale(20)}}>
           <View>
-            <Text>{name}</Text>
+            {name ? <Text>{userName}</Text> : <Text>{userName}</Text>}
           </View>
         </View>
         <View style={{marginTop: moderateScale(10)}}>
@@ -66,7 +85,11 @@ const ProfileScreen = () => {
         </View>
         <View style={{marginTop: moderateScale(10)}}>
           <TouchableOpacity
-            onPress={() => navigation.navigate(routes.CHANGE_PROFILE_PICTURE)}>
+            onPress={() =>
+              navigation.navigate(routes.CHANGE_PROFILE_PICTURE, {
+                profileImageUrl: profileImageUrl,
+              })
+            }>
             <Text style={{textDecorationLine: 'underline'}}>
               Change Profile Picture
             </Text>
