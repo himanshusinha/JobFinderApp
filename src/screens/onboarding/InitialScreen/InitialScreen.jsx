@@ -7,7 +7,7 @@ import strings from '../../../constants/strings';
 import {useNavigation} from '@react-navigation/native';
 import routes from '../../../constants/routes';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
-
+ 
 const InitialScreen = () => {
   const navigation = useNavigation();
   return (

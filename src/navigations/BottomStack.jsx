@@ -13,10 +13,11 @@ import {
 } from '../screens';
 import images from '../constants/images';
 import {moderateScale} from '../styles.jsx/responsiveSize';
+import ProfileStack from './ProfileStack';
 
 const Tab = createBottomTabNavigator();
 
-const BottomStack = ({focused}) => {
+const BottomStack = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -133,8 +134,8 @@ const BottomStack = ({focused}) => {
         }}
       />
       <Tab.Screen
-        name={routes.PROFILE_SCREEN}
-        component={ProfileScreen}
+        name={routes.PROFILE_INNER_STACK}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>

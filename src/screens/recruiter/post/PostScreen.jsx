@@ -36,75 +36,87 @@ const PostScreen = () => {
   const [badCategory, setBadCategory] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // const checkValidation = () => {
-  //   let validJobTitle = true;
-  //   let validJobDesc = true;
-  //   let validJobSkills = true;
-  //   let validExperience = true;
-  //   let validPackage = true;
-  //   let validCompany = true;
-  //   let validSelectedSkill = true;
-  //   let validSelectedCategory = true;
+  const checkValidation = () => {
+    let validJobTitle = true;
+    let validJobDesc = true;
+    let validJobSkills = true;
+    let validExperience = true;
+    let validPackage = true;
+    let validCompany = true;
+    let validSkill = true;
+    let validCategory = true;
 
-  //   if (jobTitle === '') {
-  //     validJobTitle = false;
-  //     setBadJobTitle('Please Enter Job Title');
-  //   }
+    if (jobTitle === '') {
+      validJobTitle = false;
+      setBadJobTitle('Please Enter Job Title');
+    } else {
+      setBadJobTitle('');
+    }
 
-  //   if (jobDesc === '') {
-  //     validJobDesc = false;
-  //     setBadJobDesc('Please Enter Job Desc');
-  //   }
+    if (jobDesc === '') {
+      validJobDesc = false;
+      setBadJobDesc('Please Enter Job Description');
+    } else if (jobDesc.length < 50) {
+      validJobDesc = false;
+      setBadJobDesc('Please Enter Job Description min 50 characters');
+    } else {
+      setBadJobDesc('');
+    }
 
-  //   if (skills === '') {
-  //     validJobSkills = false;
-  //     setBadSkills('Please Enter Skills');
-  //   }
+    if (selectedCategory === 'Select Category') {
+      validCategory = false;
+      setBadCategory('Please Select Job Category');
+    } else {
+      setBadCategory('');
+    }
 
-  //   if (selectedSkill === '') {
-  //     validSelectedSkill = false;
-  //     setBadSkills('Please Select Skills');
-  //   } else {
-  //     setBadSkills('');
-  //   }
+    if (selectedSkill === 'Select Skill') {
+      validJobSkills = false;
+      setBadSkills('Please Select Skill');
+    } else {
+      setBadSkills('');
+    }
 
-  //   if (selectedCategory === '') {
-  //     validSelectedCategory = false;
-  //     setBadCategory('Please Select Category');
-  //   } else {
-  //     setBadCategory('');
-  //   }
+    let expRegex = /^\d{1,2}$/; // This allows either 1 or 2 digits.
 
-  //   if (experience === '') {
-  //     validExperience = false;
-  //     setBadExperience('Please Enter Valid Experience');
-  //   }
+    if (experience === '') {
+      validExperience = false;
+      setBadExperience('Please Enter Experience');
+    } else if (!experience.match(expRegex)) {
+      validExperience = false;
+      setBadExperience('Please Enter Valid Experience (either 1 or 2 digits)');
+    } else {
+      setBadExperience('');
+    }
 
-  //   if (empPackage === '') {
-  //     validPackage = false;
-  //     setBadPackage('Please Enter Valid Package');
-  //   }
+    if (empPackage === '') {
+      validPackage = false;
+      setBadPackage('Please Enter Package');
+    } else if (!empPackage.match(expRegex)) {
+      validPackage = false;
+      setBadPackage('Please Enter Valid Package');
+    } else {
+      setBadPackage('');
+    }
 
-  //   if (company === '') {
-  //     validCompany = false;
-  //     setBadCompany('Please Enter Valid Company');
-  //   }
+    if (company === '') {
+      validCompany = false;
+      setBadCompany('Please Enter Company');
+    } else {
+      setBadCompany('');
+    }
 
-  //   if (
-  //     validJobTitle &&
-  //     validJobDesc &&
-  //     validJobSkills &&
-  //     validSelectedSkill &&
-  //     validSelectedCategory &&
-  //     validExperience &&
-  //     validPackage &&
-  //     validCompany
-  //   ) {
-  //     console.log('Posting job...');
+    return (
+      validJobTitle &&
+      validJobDesc &&
+      validJobSkills &&
+      validCategory &&
+      validExperience &&
+      validPackage &&
+      validCompany
+    );
+  };
 
-  //     postJob();
-  //   }
-  // };
   const [storedName, setStoredName] = useState('');
   const [storedId, setStoredId] = useState();
   useEffect(() => {
@@ -235,7 +247,7 @@ const PostScreen = () => {
             ) : null}
           </View>
           {/* Job Description */}
-          <View style={styles.inputStyle}>
+          <View style={[styles.inputStyle, {top: moderateScale(6)}]}>
             <View style={styles.labelStyle}>
               <Text>{'Job Description'}</Text>
             </View>
@@ -258,7 +270,7 @@ const PostScreen = () => {
             onPress={() => {
               toggleModal();
             }}
-            style={styles.inputStyle}>
+            style={[styles.inputStyle, {top: moderateScale(10)}]}>
             <View style={styles.labelStyle}>
               <Text>{'Select Skills'}</Text>
             </View>
@@ -283,16 +295,25 @@ const PostScreen = () => {
               }}
               source={images.DROP_DOWN}
             />
-            {badSkills ? (
-              <Text style={styles.errorText}>Please Enter Valid Skills</Text>
-            ) : null}
           </TouchableOpacity>
+          {badSkills ? (
+            <Text
+              style={[
+                styles.errorText,
+                {
+                  bottom: moderateScale(20),
+                  marginHorizontal: moderateScale(20),
+                },
+              ]}>
+              {badSkills}
+            </Text>
+          ) : null}
           <TouchableOpacity
             activeOpacity={0.9}
             onPress={() => {
               toggleCatModal();
             }}
-            style={[styles.inputStyle]}>
+            style={[styles.inputStyle, {top: moderateScale(10)}]}>
             <View style={styles.labelStyle}>
               <Text>{'Select Category'}</Text>
             </View>
@@ -316,10 +337,19 @@ const PostScreen = () => {
               }}
               source={images.DROP_DOWN}
             />
-            {badCategory ? (
-              <Text style={styles.errorText}>Please Enter Valid Category</Text>
-            ) : null}
           </TouchableOpacity>
+          {badCategory ? (
+            <Text
+              style={[
+                styles.errorText,
+                {
+                  bottom: moderateScale(50),
+                  marginHorizontal: moderateScale(20),
+                },
+              ]}>
+              {badCategory}
+            </Text>
+          ) : null}
           {/* Experience */}
           <View style={styles.inputStyle}>
             <View style={styles.labelStyle}>
@@ -375,10 +405,17 @@ const PostScreen = () => {
             ) : null}
           </View>
 
-          <View style={[styles.buttonLoginViewStyle, {top: moderateScale(10)}]}>
+          <View
+            style={[styles.buttonLoginViewStyle, {bottom: moderateScale(10)}]}>
             <AppButton
               onPress={() => {
-                postJob();
+                console.log('Button Pressed');
+                if (checkValidation()) {
+                  console.log('Validation Passed');
+                  postJob();
+                } else {
+                  console.log('Validation Failed');
+                }
               }}
               textStyle={styles.textLoginStyle}
               text={strings.TITLE_POST}

@@ -56,75 +56,7 @@ const EditPostScreen = () => {
       setCompany(jobData?.company || '');
     }
   }, [jobData, useFocued]);
-  // const checkValidation = () => {
-  //   let validJobTitle = true;
-  //   let validJobDesc = true;
-  //   let validJobSkills = true;
-  //   let validExperience = true;
-  //   let validPackage = true;
-  //   let validCompany = true;
-  //   let validSelectedSkill = true;
-  //   let validSelectedCategory = true;
 
-  //   if (jobTitle === '') {
-  //     validJobTitle = false;
-  //     setBadJobTitle('Please Enter Job Title');
-  //   }
-
-  //   if (jobDesc === '') {
-  //     validJobDesc = false;
-  //     setBadJobDesc('Please Enter Job Desc');
-  //   }
-
-  //   if (skills === '') {
-  //     validJobSkills = false;
-  //     setBadSkills('Please Enter Skills');
-  //   }
-
-  //   if (selectedSkill === '') {
-  //     validSelectedSkill = false;
-  //     setBadSkills('Please Select Skills');
-  //   } else {
-  //     setBadSkills('');
-  //   }
-
-  //   if (selectedCategory === '') {
-  //     validSelectedCategory = false;
-  //     setBadCategory('Please Select Category');
-  //   } else {
-  //     setBadCategory('');
-  //   }
-
-  //   if (experience === '') {
-  //     validExperience = false;
-  //     setBadExperience('Please Enter Valid Experience');
-  //   }
-
-  //   if (empPackage === '') {
-  //     validPackage = false;
-  //     setBadPackage('Please Enter Valid Package');
-  //   }
-
-  //   if (company === '') {
-  //     validCompany = false;
-  //     setBadCompany('Please Enter Valid Company');
-  //   }
-
-  //   if (
-  //     validJobTitle &&
-  //     validJobDesc &&
-  //     validJobSkills &&
-  //     validSelectedSkill &&
-  //     validSelectedCategory &&
-  //     validExperience &&
-  //     validPackage &&
-  //     validCompany
-  //   ) {
-  //     console.log('Posting job...');
-
-  //     postJob();
-  //   }
-  // };
   const [storedName, setStoredName] = useState('');
   const [storedId, setStoredId] = useState();
   useEffect(() => {
@@ -251,7 +183,7 @@ const EditPostScreen = () => {
       <WrapperContainer style={styles.wrapperContainer}>
         {isLoading && <Loader visible={isLoading} />}
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>{strings.TITLE_EDIT_POST}</Text>
+          <Text style={styles.title}>{strings.TITLE_UPDATE_POST}</Text>
         </View>
         <View style={styles.mainContainer}>
           {/* Job Title */}
@@ -419,7 +351,7 @@ const EditPostScreen = () => {
                 postJob();
               }}
               textStyle={styles.textLoginStyle}
-              text={strings.TITLE_POST}
+              text={strings.TITLE_UPDATE_POST}
               style={styles.buttonLoginStyle}
             />
           </View>

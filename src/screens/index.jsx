@@ -1,10 +1,11 @@
 export {default as LoginRecruiterScreen} from '../screens/recruiter/auth/login/LoginRecruiterScreen';
 export {default as SignUpRecruiterScreen} from '../screens/recruiter/auth/signup/SignUpRecruiterScreen';
 export {default as InitialScreen} from '../screens/onboarding/InitialScreen/InitialScreen';
-export {default as SplashScreen} from '../screens/onboarding/splash/SplashScreen';
 export {default as HomeScreen} from '../screens/recruiter/home/HomeScreen';
 export {default as SearchScreen} from '../screens/recruiter/search/SearchScreen';
 export {default as ChatScreen} from '../screens/recruiter/chat/ChatScreen';
 export {default as PostScreen} from '../screens/recruiter/post/PostScreen';
 export {default as ProfileScreen} from '../screens/recruiter/profile/ProfileScreen';
 export {default as EditPostScreen} from '../screens/recruiter/post/EditPostScreen';
+export {default as SplashScreen} from '../screens/onboarding/splash/SplashScreen';
+export {default as UpdateProfileScreen} from '../screens/recruiter/updateProfile/UpdateProfileScreen';

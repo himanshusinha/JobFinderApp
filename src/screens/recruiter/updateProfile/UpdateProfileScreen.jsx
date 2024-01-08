@@ -1,18 +1,18 @@
 import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
-import WrapperContainer from '../../../../components/wrapperContainer/WrapperContainer';
-import images from '../../../../constants/images';
-import strings from '../../../../constants/strings';
-import TextInputWithLabel from '../../../../components/input/TextInputWithLabel';
-import colors from '../../../../constants/colors';
-import AppButton from '../../../../components/button/AppButton';
+import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
+import images from '../../../constants/images';
+import strings from '../../../constants/strings';
+import TextInputWithLabel from '../../../components/input/TextInputWithLabel';
+import colors from '../../../constants/colors';
+import AppButton from '../../../components/button/AppButton';
 import {useNavigation} from '@react-navigation/native';
-import Loader from '../../../../components/loader/Loader';
+import Loader from '../../../components/loader/Loader';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignUpRecruiterScreen = () => {
+const UpdateProfileScreen = () => {
   const navigation = useNavigation();
   const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
@@ -22,21 +22,37 @@ const SignUpRecruiterScreen = () => {
   const [address, setAddress] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [docId, setDocId] = useState('');
-  console.log(docId);
+  const [id, setId] = useState('');
+  console.log(id, '......id');
   const [badName, setBadName] = useState('');
   const [badEmail, setBadEmail] = useState('');
   const [badContact, setBadContact] = useState('');
   const [badCompany, setBadCompany] = useState('');
   const [badAddress, setBadAddress] = useState('');
   const [badPassword, setBadPassword] = useState('');
-
+  const [updatedName, setUpdatedName] = useState('');
+  console.log(updatedName, '....updateName');
   const NAME_REGEX = /^[a-zA-Z\s]+$/;
   const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const CONTACT_REGEX = /^[0-9]{10}$/;
   const COMPANY_REGEX = /^[a-zA-Z0-9\s]+$/;
   const ADDRESS_REGEX = /^[a-zA-Z0-9\s,.-]+$/;
   const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+  useEffect(() => {
+    const getUserIdFromStorage = async () => {
+      try {
+        const storedId = await AsyncStorage.getItem('docid');
+        console.log(storedId, '.........iserid');
+        if (storedId !== null) {
+          setId(storedId);
+        }
+      } catch (error) {
+        console.error('Error retrieving userId from AsyncStorage:', error);
+      }
+    };
+
+    getUserIdFromStorage();
+  }, []);
 
   const checkValidation = () => {
     let validName = true;
@@ -71,11 +87,6 @@ const SignUpRecruiterScreen = () => {
       setBadAddress('Please Enter Valid Address');
     }
 
-    if (password === '' || !PASSWORD_REGEX.test(password)) {
-      validPassword = false;
-      setBadPassword('Please Enter Valid Password');
-    }
-
     if (
       validName &&
       validEmail &&
@@ -84,7 +95,7 @@ const SignUpRecruiterScreen = () => {
       validAddress &&
       validPassword
     ) {
-      signUp();
+      updateProfile();
     }
   };
   const handleEmailChange = e => {
@@ -128,60 +139,66 @@ const SignUpRecruiterScreen = () => {
     }
   };
 
-  const generateUUID = () => {
-    const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-      /[xy]/g,
-      function (c) {
-        const r = (Math.random() * 16) | 0,
-          v = c === 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      },
-    );
+  // const generateUUID = () => {
+  //   const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+  //     /[xy]/g,
+  //     function (c) {
+  //       const r = (Math.random() * 16) | 0,
+  //         v = c === 'x' ? r : (r & 0x3) | 0x8;
+  //       return v.toString(16);
+  //     },
+  //   );
 
-    return uuid;
-  };
+  //   return uuid;
+  // };
 
   // Generate a random UUID
-  const uuid = generateUUID();
-  console.log(uuid);
-
-  const signUp = () => {
-    const userId = generateUUID();
-    const idd = AsyncStorage.setItem('idd', userId);
-    setIsLoading(true);
+  // const uuid = generateUUID();
+  useEffect(() => {
+    getProfile();
+  }, []);
+  const getProfile = async () => {
+    const userEmail = await AsyncStorage.getItem('email');
     firestore()
       .collection('job_posters')
-      .add({
+      .where('email', '==', userEmail)
+      .get()
+      .then(res => {
+        res.docs.forEach(item => {
+          console.log(item, ',,,,,item');
+          setName(item.data().name);
+          setEmail(item.data().email);
+          setContact(item.data().contact);
+          setCompany(item.data().company);
+          setAddress(item.data().address);
+        });
+      });
+  };
+
+  const updateProfile = async () => {
+    const userId = await AsyncStorage.getItem('docid');
+    setIsLoading(true);
+    AsyncStorage.setItem('updatedName', name)
+      .then(() => {
+        console.log('Name updated in AsyncStorage.');
+        setUpdatedName(name);
+      })
+      .catch(error => {
+        console.error('Error updating name in AsyncStorage:', error);
+      });
+
+    firestore()
+      .collection('job_posters')
+      .doc(id)
+      .update({
         userId,
         name,
         email,
         contact,
         company,
         address,
-        password,
-      })
-      .then(docRef => {
-        const collectionId = docRef.id; // Retrieve the collection ID
-        console.log('Collection ID:', collectionId); // Log the collection ID
-        AsyncStorage.setItem('docid', collectionId);
-        setDocId(collectionId);
-        // ... (rest of your code)
       })
       .then(() => {
-        AsyncStorage.setItem('id', idd);
-        AsyncStorage.setItem('name', name);
-        AsyncStorage.setItem('email', email);
-        AsyncStorage.setItem('contact', contact);
-        AsyncStorage.setItem('company', company);
-        AsyncStorage.setItem('address', address);
-        AsyncStorage.setItem('password', password);
-        setUserId();
-        setName('');
-        setEmail('');
-        setContact('');
-        setCompany('');
-        setAddress('');
-        setPassword('');
         setIsLoading(false);
         setTimeout(() => {
           navigation.goBack();
@@ -202,8 +219,7 @@ const SignUpRecruiterScreen = () => {
         bounces={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.headerContainer}>
-          <Image source={images.LOGO} style={styles.logo} />
-          <Text style={styles.title}>{strings.TITLE_CREATE_ACCOUNT}</Text>
+          <Text style={styles.title}>{strings.TITLE_UPDATE_PROFILE}</Text>
         </View>
         <View style={styles.mainContainer}>
           <View style={styles.inputStyle}>
@@ -288,23 +304,6 @@ const SignUpRecruiterScreen = () => {
               <Text style={styles.errorText}>Please Enter Valid Address</Text>
             ) : null}
           </View>
-          <View style={styles.inputStyle}>
-            <View style={styles.labelStyle}>
-              <Text>{'Password'}</Text>
-            </View>
-            <TextInputWithLabel
-              value={password}
-              onChangeText={handlePasswordChange}
-              placeholder={strings.TITLE_PLACE_HOLDER_PASSWORD}
-              placeholderTextColor={colors.GRAY}
-              rightIcon={images.SHOW}
-              autoCorrect={false} // Disable auto correction
-              autoCapitalize="none" // Disable auto capitalization
-            />
-            {badPassword ? (
-              <Text style={styles.errorText}>Please Enter Valid Password</Text>
-            ) : null}
-          </View>
 
           <View style={styles.buttonLoginViewStyle}>
             <AppButton
@@ -312,16 +311,8 @@ const SignUpRecruiterScreen = () => {
                 checkValidation();
               }}
               textStyle={styles.textLoginStyle}
-              text={strings.TITLE_SIGN_UP}
+              text={strings.TITLE_UPDATE_PROFILE}
               style={styles.buttonLoginStyle}
-            />
-          </View>
-          <View style={styles.buttonSignUpViewStyle}>
-            <AppButton
-              onPress={() => navigation.goBack()}
-              textStyle={styles.textSignUpStyle}
-              text={strings.TITLE_LOGIN}
-              style={styles.buttonSignUpStyle}
             />
           </View>
         </View>
@@ -330,4 +321,4 @@ const SignUpRecruiterScreen = () => {
   );
 };
 
-export default SignUpRecruiterScreen;
+export default UpdateProfileScreen;

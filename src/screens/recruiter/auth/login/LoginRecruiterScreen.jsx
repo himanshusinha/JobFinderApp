@@ -20,28 +20,28 @@ const LoginRecruiterScreen = () => {
   const [password, setPassword] = useState('');
   const [badPassword, setBadPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
   const checkValidation = () => {
     let validEmail = true;
     let validPassword = true;
 
-    if (email === '') {
-      validEmail = false;
-      setBadEmail('Please Enter Email');
-    } else if (!EMAIL_REGEX.test(email)) {
+    // Check for empty email
+    if (email.trim() == '') {
       validEmail = false;
       setBadEmail('Please Enter Valid Email');
+    } else {
+      setBadEmail('');
     }
 
-    if (password === '') {
-      validPassword = false;
-      setBadPassword('Please Enter Password');
-    } else if (!PASSWORD_REGEX.test(password)) {
+    // Check for empty password
+    if (password.trim() == '') {
       validPassword = false;
       setBadPassword('Please Enter Valid Password');
     } else {
+      setBadPassword('');
+    }
+
+    if (validEmail && validPassword) {
       login();
     }
   };
@@ -59,7 +59,6 @@ const LoginRecruiterScreen = () => {
       setBadPassword('');
     }
   };
-
   const login = () => {
     setIsLoading(true);
     firestore()
@@ -67,17 +66,32 @@ const LoginRecruiterScreen = () => {
       .where('email', '==', email)
       .get()
       .then(data => {
-        console.log(data.docs);
         setIsLoading(false);
-        AsyncStorage.setItem('email', email);
-        AsyncStorage.setItem('password', password);
-        navigation.navigate(routes.HOME_SCREEN);
+        if (data.docs.length === 0) {
+          // No user found with the provided email
+          setBadEmail('No user found with this email.');
+        } else {
+          const userData = data.docs[0].data();
+          // Check if the password matches
+          if (userData.password !== password) {
+            // Password does not match
+            setBadPassword('Incorrect password.');
+          } else {
+            // Password matches, continue with login process
+            AsyncStorage.setItem('email', email);
+            AsyncStorage.setItem('password', password);
+            navigation.navigate(routes.HOME_SCREEN);
+            1;
+          }
+        }
       })
       .catch(err => {
         setIsLoading(false);
         console.log('Error:', err.message);
+        // Handle other errors as needed
       });
   };
+
   return (
     <WrapperContainer style={styles.wrapperContainer}>
       {isLoading && <Loader visible={isLoading} />}
@@ -99,9 +113,7 @@ const LoginRecruiterScreen = () => {
             autoCorrect={false}
             autoCapitalize="none"
           />
-          {badEmail ? (
-            <Text style={styles.errorText}>Please Enter Valid Email</Text>
-          ) : null}
+          {badEmail ? <Text style={styles.errorText}>{badEmail}</Text> : null}
         </View>
         <View style={styles.inputStyle}>
           <View style={styles.labelStyle}>
@@ -117,7 +129,7 @@ const LoginRecruiterScreen = () => {
             autoCapitalize="none"
           />
           {badPassword ? (
-            <Text style={styles.errorText}>Please Enter Valid Password</Text>
+            <Text style={styles.errorText}>{badPassword}</Text>
           ) : null}
         </View>
         <TouchableOpacity activeOpacity={0.8} style={styles.viewForgot}>

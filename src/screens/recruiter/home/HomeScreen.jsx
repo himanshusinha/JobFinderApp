@@ -11,20 +11,24 @@ import routes from '../../../constants/routes';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../components/loader/Loader';
+import {createShimmerPlaceholder} from 'react-native-shimmer-placeholder';
+import LinearGradient from 'react-native-linear-gradient';
+
+const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient);
 
 const HomeScreen = () => {
   const [jobData, setJobData] = useState([]);
   const [storedId, setStoredId] = useState('');
+  console.log(storedId);
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
-  console.log(jobData);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const snapshot = await firestore().collection('jobs').get();
-
         const data = snapshot.docs.map(doc => ({
           id: doc.id,
+          
           ...doc.data(),
         }));
 
@@ -36,6 +40,7 @@ const HomeScreen = () => {
 
     fetchData();
   }, [jobData]);
+
   const deleteJob = async userId => {
     setIsLoading(true);
     try {
@@ -127,7 +132,8 @@ const HomeScreen = () => {
                       borderWidth: 1,
                       borderColor: colors.GRAY,
                       backgroundColor: colors.WHITE,
-                      height: moderateScale(40),
+                      height: moderateScale(30),
+                      width: moderateScale(150),
                     }}
                   />
                   <AppButton
@@ -138,7 +144,8 @@ const HomeScreen = () => {
                       borderWidth: 1,
                       borderColor: colors.RED,
                       backgroundColor: colors.WHITE,
-                      height: moderateScale(40),
+                      height: moderateScale(30),
+                      width: moderateScale(150),
                     }}
                   />
                 </View>

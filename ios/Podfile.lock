@@ -635,6 +635,8 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.24):
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
+  - BVLinearGradient (2.8.3):
+    - React-Core
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.73.1)
   - FBReactNativeSpec (0.73.1):
@@ -1659,6 +1661,10 @@ PODS:
   - React-Mapbuffer (0.73.1):
     - glog
     - React-debug
+  - react-native-image-picker (7.1.0):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
   - react-native-safe-area-context (4.8.2):
     - React-Core
   - React-nativeconfig (0.73.1)
@@ -1856,6 +1862,7 @@ PODS:
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -1885,6 +1892,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector-modern`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -1944,6 +1952,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -1997,6 +2007,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-nativeconfig:
@@ -2058,6 +2070,7 @@ SPEC CHECKSUMS:
   abseil: 926fb7a82dc6d2b8e1f2ed7f3a718bce691d1e46
   boost: 26fad476bfa736552bbfa698a06cc530475c1505
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
+  BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
   FBLazyVector: 2296bacb2fa157a43991048b0a9d71c1c8b65083
   FBReactNativeSpec: df0ebe69acd14ce0be0269cf75b6e338a727259b
@@ -2104,6 +2117,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 369048694e39942063c5d08e9580b43e2edd379a
   React-logger: e0c1e918d9588a9f39c9bc62d9d6bfe9ca238d9d
   React-Mapbuffer: babe0bb3746937775f8a3a89b861cea3c077162d
+  react-native-image-picker: e3b3e0b18a3a33c16a98e4e9c291327a9c3d6f36
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   React-nativeconfig: a8685fce6d0ffbb77b1fe983895dbbc7bfe949ad
   React-NativeModulesApple: 63accd5672e433f187e4c35ce61641f2b303098c

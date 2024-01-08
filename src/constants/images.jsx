@@ -8,4 +8,11 @@ export default {
   CHAT: require('../assets/images/chat.png'),
   PROFILE: require('../assets/images/profile.png'),
   DROP_DOWN: require('../assets/images/dropdown.png'),
+  USER: require('../assets/images/user.png'),
+  CONTACT: require('../assets/images/contact.png'),
+  PORTFOLIO: require('../assets/images/portfolio.png'),
+  POWER_OFF: require('../assets/images/power_off.png'),
+  THEME: require('../assets/images/theme.png'),
+  CHEVRON: require('../assets/images/chevron.png'),
+  CLOSE: require('../assets/images/close.png'),
 };
