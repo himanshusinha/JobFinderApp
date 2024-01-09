@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import colors from '../../../../constants/colors';
 import {
   moderateScale,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     bottom: moderateScale(50),
   },
   headerContainer: {
-    marginTop: moderateScale(60),
+    marginTop: Platform.OS === 'ios' ? moderateScale(60) : moderateScale(140),
     justifyContent: 'center',
     alignItems: 'center',
   },

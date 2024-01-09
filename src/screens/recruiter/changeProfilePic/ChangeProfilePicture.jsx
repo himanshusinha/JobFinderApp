@@ -1,4 +1,10 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  PermissionsAndroid,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
 import styles from './styles';
@@ -18,6 +24,42 @@ const ChangeProfilePicture = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState('');
   const navigation = useNavigation();
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: 'App needs access to your camera.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  };
+
+  const requestStoragePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      ]);
+      return (
+        granted['android.permission.READ_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+        granted['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED
+      );
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  };
   useEffect(() => {
     const getUserIdFromStorage = async () => {
       try {
@@ -34,14 +76,24 @@ const ChangeProfilePicture = () => {
     getUserIdFromStorage();
   }, []);
   const chooseGallery = async () => {
-    const res = await launchImageLibrary({mediaType: 'photo'});
-
-    if (!res.didCancel) {
-      setImageData(res);
+    const hasPermission = await requestStoragePermission();
+    if (hasPermission) {
+      const res = await launchImageLibrary({mediaType: 'photo'});
+      if (!res.didCancel) {
+        setImageData(res);
+      }
+    } else {
+      console.warn('Storage permission denied');
     }
   };
   const chooseCamera = async () => {
-    const userDocument = firestore().collection('Users').doc('ABC');
+    const hasPermission = await requestCameraPermission();
+    if (hasPermission) {
+      const res = await launchCamera({mediaType: 'photo'});
+      setImageData(res);
+    } else {
+      console.warn('Camera permission denied');
+    }
 
     if (!res.didCancel) {
       setImageData(res);
@@ -114,6 +166,19 @@ const ChangeProfilePicture = () => {
           <AppButton
             onPress={() => chooseGallery()}
             text="Choose from gallery"
+            textStyle={{fontSize: textScale(12)}}
+            style={{
+              backgroundColor: colors.WHITE,
+              borderColor: colors.GRAY,
+              borderWidth: 1,
+              width: '80%',
+              marginTop: moderateScale(30),
+              height: moderateScale(40),
+            }}
+          />
+          <AppButton
+            onPress={() => chooseCamera()}
+            text="Choose from camera"
             textStyle={{fontSize: textScale(12)}}
             style={{
               backgroundColor: colors.WHITE,

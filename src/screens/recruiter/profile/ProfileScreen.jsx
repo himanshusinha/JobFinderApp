@@ -12,7 +12,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const [name, setName] = useState('');
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState('Johnas');
   const isFocused = useIsFocused();
   const [profileImageUrl, setProfileImageUrl] = useState('');
   console.log(profileImageUrl);
@@ -71,9 +71,7 @@ const ProfileScreen = () => {
           />
         )}
         <View style={{marginTop: moderateScale(20)}}>
-          <View>
-            {name ? <Text>{userName}</Text> : <Text>{userName}</Text>}
-          </View>
+          <View>{name ? <Text>{name}</Text> : <Text>{userName}</Text>}</View>
         </View>
         <View style={{marginTop: moderateScale(10)}}>
           <TouchableOpacity
@@ -96,6 +94,7 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
         <FlatList
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{marginTop: moderateScale(80)}}
           data={profileData}
           renderItem={({item, index}) => {

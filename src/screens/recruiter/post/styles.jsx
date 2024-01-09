@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 
 import colors from '../../../constants/colors';
 import fontFamily from '../../../styles.jsx/fontFamily';
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: textScale(20),
     fontFamily: fontFamily.POPPINS_BOLD,
-    marginTop: moderateScale(30),
+    marginTop: Platform.OS === 'ios' ? moderateScale(30) : moderateScale(60),
   },
   labelEmailStyle: {
     color: colors.BLACK,
@@ -91,7 +91,11 @@ const styles = StyleSheet.create({
     marginHorizontal: moderateScale(20),
     marginTop: moderateScale(20),
   },
-  mainContainer: {marginTop: moderateScale(20)},
+  mainContainer: {
+    marginTop: moderateScale(20),
+    height: Dimensions.get('window').height,
+    backgroundColor: colors.WHITE,
+  },
   errorText: {
     color: 'red',
     top: moderateScale(3),
