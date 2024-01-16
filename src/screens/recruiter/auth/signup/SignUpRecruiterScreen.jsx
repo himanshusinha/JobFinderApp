@@ -176,7 +176,6 @@ const SignUpRecruiterScreen = () => {
         AsyncStorage.setItem('password', password);
 
         setUserId();
-        setName('');
         setEmail('');
         setContact('');
         setCompany('');

@@ -100,5 +100,12 @@ const styles = StyleSheet.create({
     color: 'red',
     top: moderateScale(3),
   },
+  imageDropDown: {
+    width: moderateScale(20),
+    height: moderateScale(20),
+    bottom: moderateScale(33),
+    alignSelf: 'flex-end',
+    marginEnd: moderateScale(10),
+  },
 });
 export default styles;

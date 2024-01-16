@@ -243,16 +243,7 @@ const EditPostScreen = () => {
               autoCapitalize="none"
               editable={false}
             />
-            <Image
-              style={{
-                width: moderateScale(20),
-                height: moderateScale(20),
-                bottom: moderateScale(33),
-                alignSelf: 'flex-end',
-                marginEnd: moderateScale(10),
-              }}
-              source={images.DROP_DOWN}
-            />
+            <Image style={styles.imageDropDown} source={images.DROP_DOWN} />
             {badSkills ? (
               <Text style={styles.errorText}>Please Enter Valid Skills</Text>
             ) : null}
@@ -276,16 +267,7 @@ const EditPostScreen = () => {
               autoCapitalize="none"
               editable={false}
             />
-            <Image
-              style={{
-                width: moderateScale(20),
-                height: moderateScale(20),
-                bottom: moderateScale(33),
-                alignSelf: 'flex-end',
-                marginEnd: moderateScale(10),
-              }}
-              source={images.DROP_DOWN}
-            />
+            <Image style={styles.imageDropDown} source={images.DROP_DOWN} />
             {badCategory ? (
               <Text style={styles.errorText}>Please Enter Valid Category</Text>
             ) : null}

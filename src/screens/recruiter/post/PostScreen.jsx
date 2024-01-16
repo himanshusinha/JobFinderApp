@@ -77,7 +77,7 @@ const PostScreen = () => {
       setBadSkills('');
     }
 
-    let expRegex = /^\d{1,2}$/; // This allows either 1 or 2 digits.
+    let expRegex = /^\d{1,2}$/;
 
     if (experience === '') {
       validExperience = false;
@@ -285,16 +285,7 @@ const PostScreen = () => {
               autoCapitalize="none"
               editable={false}
             />
-            <Image
-              style={{
-                width: moderateScale(20),
-                height: moderateScale(20),
-                bottom: moderateScale(33),
-                alignSelf: 'flex-end',
-                marginEnd: moderateScale(10),
-              }}
-              source={images.DROP_DOWN}
-            />
+            <Image style={styles.imageDropDown} source={images.DROP_DOWN} />
           </TouchableOpacity>
           {badSkills ? (
             <Text
@@ -327,16 +318,7 @@ const PostScreen = () => {
               autoCapitalize="none"
               editable={false}
             />
-            <Image
-              style={{
-                width: moderateScale(20),
-                height: moderateScale(20),
-                bottom: moderateScale(33),
-                alignSelf: 'flex-end',
-                marginEnd: moderateScale(10),
-              }}
-              source={images.DROP_DOWN}
-            />
+            <Image style={styles.imageDropDown} source={images.DROP_DOWN} />
           </TouchableOpacity>
           {badCategory ? (
             <Text

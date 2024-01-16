@@ -1,6 +1,5 @@
-import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import styles from './styles';
+import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
 import {moderateScale} from '../../../styles.jsx/responsiveSize';
 import images from '../../../constants/images';
@@ -15,7 +14,7 @@ const ProfileScreen = () => {
   const [userName, setUserName] = useState('Johnas');
   const isFocused = useIsFocused();
   const [profileImageUrl, setProfileImageUrl] = useState('');
-  console.log(profileImageUrl);
+
   const logout = async () => {
     try {
       await AsyncStorage.clear();
@@ -24,19 +23,20 @@ const ProfileScreen = () => {
       console.error('Error logging out:', error);
     }
   };
+
   useEffect(() => {
     const fetchStoredName = async () => {
       try {
         const storedName = await AsyncStorage.getItem('updatedName');
         const userName = await AsyncStorage.getItem('name');
         console.log(userName);
+        setUserName(userName);
         let image = await AsyncStorage.getItem('profileImageUrl');
         if (image != null) {
           setProfileImageUrl(image);
         }
-        if (storedName !== null && userName !== null) {
+        if (storedName !== null) {
           setName(storedName);
-          setUserName(userName);
         }
       } catch (error) {
         console.error('Error fetching stored name from AsyncStorage:', error);
@@ -47,9 +47,13 @@ const ProfileScreen = () => {
   }, [isFocused]);
 
   return (
-    <WrapperContainer style={styles.wrapperContainer}>
+    <WrapperContainer
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        {profileImageUrl != '' ? (
+        {profileImageUrl !== '' ? (
           <Image
             source={{uri: profileImageUrl}}
             style={{
@@ -70,6 +74,8 @@ const ProfileScreen = () => {
             }}
           />
         )}
+      </View>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <View style={{marginTop: moderateScale(20)}}>
           <View>{name ? <Text>{name}</Text> : <Text>{userName}</Text>}</View>
         </View>
@@ -93,50 +99,50 @@ const ProfileScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{marginTop: moderateScale(80)}}
-          data={profileData}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  switch (index) {
-                    case 0:
-                      navigation.navigate(routes.HOME_SCREEN);
-                      break;
-                    case 1:
-                      break;
-                    case 2:
-                      break;
-                    case 3:
-                      logout();
-                      break;
-                    default:
-                      break;
-                  }
-                }}
-                activeOpacity={0.7}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  flex: 1,
-                  marginVertical: moderateScale(10),
-                }}>
-                <Image
-                  style={{width: moderateScale(20), height: moderateScale(20)}}
-                  source={item.image}
-                />
-                <Text style={{width: '84%'}}>{item?.title}</Text>
-                <Image
-                  style={{width: moderateScale(14), height: moderateScale(14)}}
-                  source={item.icon}
-                />
-              </TouchableOpacity>
-            );
-          }}
-        />
       </View>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{marginTop: moderateScale(80)}}
+        data={profileData}
+        renderItem={({item, index}) => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                switch (index) {
+                  case 0:
+                    navigation.navigate(routes.HOME_SCREEN);
+                    break;
+                  case 1:
+                    break;
+                  case 2:
+                    break;
+                  case 3:
+                    logout();
+                    break;
+                  default:
+                    break;
+                }
+              }}
+              activeOpacity={0.7}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                flex: 1,
+                marginVertical: moderateScale(10),
+              }}>
+              <Image
+                style={{width: moderateScale(20), height: moderateScale(20)}}
+                source={item.image}
+              />
+              <Text style={{width: '84%'}}>{item?.title}</Text>
+              <Image
+                style={{width: moderateScale(14), height: moderateScale(14)}}
+                source={item.icon}
+              />
+            </TouchableOpacity>
+          );
+        }}
+      />
     </WrapperContainer>
   );
 };
