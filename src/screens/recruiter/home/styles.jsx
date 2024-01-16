@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../../constants/colors';
-import {moderateScale, textScale} from '../../../styles.jsx/responsiveSize';
+import {
+  moderateScale,
+  moderateScaleVertical,
+  textScale,
+} from '../../../styles.jsx/responsiveSize';
 import fontFamily from '../../../styles.jsx/fontFamily';
 
 const styles = StyleSheet.create({
@@ -29,6 +33,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    marginTop: moderateScale(20),
+    marginBottom: moderateScale(10),
   },
   editButton: {
     borderWidth: 1,
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
   noJobFoundText: {
     fontSize: textScale(16),
   },
-  titleSkills: {bottom: moderateScale(16)},
+  titleSkills: {top: moderateScale(1)},
   titleEditPost: {color: colors.BLACK, fontSize: textScale(12)},
   titleDeletePost: {color: colors.RED, fontSize: textScale(12)},
 });

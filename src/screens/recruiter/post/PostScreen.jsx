@@ -118,6 +118,7 @@ const PostScreen = () => {
   };
 
   const [storedName, setStoredName] = useState('');
+  console.log(storedName, '.........stored Name');
   const [storedId, setStoredId] = useState('');
   useEffect(() => {
     const getNameFromStorage = async () => {

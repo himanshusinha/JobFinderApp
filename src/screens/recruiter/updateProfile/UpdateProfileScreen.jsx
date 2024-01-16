@@ -2,7 +2,6 @@ import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
-import images from '../../../constants/images';
 import strings from '../../../constants/strings';
 import TextInputWithLabel from '../../../components/input/TextInputWithLabel';
 import colors from '../../../constants/colors';
@@ -23,7 +22,6 @@ const UpdateProfileScreen = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState('');
-  console.log(id, '......id');
   const [badName, setBadName] = useState('');
   const [badEmail, setBadEmail] = useState('');
   const [badContact, setBadContact] = useState('');
@@ -31,13 +29,11 @@ const UpdateProfileScreen = () => {
   const [badAddress, setBadAddress] = useState('');
   const [badPassword, setBadPassword] = useState('');
   const [updatedName, setUpdatedName] = useState('');
-  console.log(updatedName, '....updateName');
   const NAME_REGEX = /^[a-zA-Z\s]+$/;
   const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const CONTACT_REGEX = /^[0-9]{10}$/;
   const COMPANY_REGEX = /^[a-zA-Z0-9\s]+$/;
   const ADDRESS_REGEX = /^[a-zA-Z0-9\s,.-]+$/;
-  const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
   useEffect(() => {
     const getUserIdFromStorage = async () => {
       try {
@@ -139,21 +135,6 @@ const UpdateProfileScreen = () => {
     }
   };
 
-  // const generateUUID = () => {
-  //   const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-  //     /[xy]/g,
-  //     function (c) {
-  //       const r = (Math.random() * 16) | 0,
-  //         v = c === 'x' ? r : (r & 0x3) | 0x8;
-  //       return v.toString(16);
-  //     },
-  //   );
-
-  //   return uuid;
-  // };
-
-  // Generate a random UUID
-  // const uuid = generateUUID();
   useEffect(() => {
     getProfile();
   }, []);

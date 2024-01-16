@@ -12,12 +12,15 @@ import Loader from '../../../components/loader/Loader';
 const HomeScreen = () => {
   const [jobData, setJobData] = useState([]);
   const [storedId, setStoredId] = useState('');
+  const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const name = AsyncStorage.getItem('name');
+        console.log(name);
         const snapshot = await firestore().collection('jobs').get();
         const data = snapshot.docs.map(doc => ({
           id: doc.id,
@@ -32,7 +35,23 @@ const HomeScreen = () => {
 
     fetchData();
   }, [jobData]);
+  useEffect(() => {
+    const getNameFromStorage = async () => {
+      try {
+        const storedIdd = await AsyncStorage.getItem('userId');
+        if (storedIdd !== null) {
+          setStoredId(storedIdd);
+        }
 
+        const storedName = await AsyncStorage.getItem('name');
+        setName(storedName);
+      } catch (error) {
+        console.error('Error retrieving data from AsyncStorage:', error);
+      }
+    };
+
+    getNameFromStorage();
+  }, []);
   const deleteJob = async userId => {
     setIsLoading(true);
     try {
@@ -72,14 +91,21 @@ const HomeScreen = () => {
             keyExtractor={item => item.id}
             renderItem={({item}) => (
               <View style={styles.listItemContainer}>
-                <Text style={styles.categoryText}>{item.category}</Text>
-                <Text style={styles.companyText}>{item.company}</Text>
-                <Text style={styles.experienceText}>{item.experience}</Text>
-                <Text>{item.jobDesc}</Text>
-                <Text>{item.jobTitle}</Text>
-                <Text>{item.package}</Text>
-                <Text>{item.postedBy}</Text>
-                <Text style={styles.titleSkills}>{item.skills}</Text>
+                <Text style={styles.categoryText}>
+                  Category {item.category}
+                </Text>
+                <Text style={styles.companyText}>Company {item.company}</Text>
+                <Text style={styles.experienceText}>
+                  Experience {item.experience}
+                </Text>
+                <Text>Job Desciption {item.jobDesc}</Text>
+                <Text>Job Title {item.jobTitle}</Text>
+                <Text>
+                  Package
+                  {item.package}
+                </Text>
+                <Text>Posted By {name}</Text>
+                <Text style={styles.titleSkills}>Skills {item.skills}</Text>
 
                 <View style={styles.buttonContainer}>
                   <AppButton

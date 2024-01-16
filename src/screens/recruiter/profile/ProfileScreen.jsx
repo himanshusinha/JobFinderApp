@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
-import {moderateScale} from '../../../styles.jsx/responsiveSize';
 import images from '../../../constants/images';
 import {profileData} from '../../../constants/listData';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import routes from '../../../constants/routes';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
+import styles from './styles';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -52,49 +52,31 @@ const ProfileScreen = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.profileContainer}>
         {profileImageUrl !== '' ? (
-          <Image
-            source={{uri: profileImageUrl}}
-            style={{
-              width: moderateScale(120),
-              height: moderateScale(120),
-              borderRadius: moderateScale(60),
-              marginTop: moderateScale(80),
-            }}
-          />
+          <Image source={{uri: profileImageUrl}} style={styles.profileImage} />
         ) : (
-          <Image
-            source={images.USER}
-            style={{
-              width: moderateScale(80),
-              height: moderateScale(80),
-              borderRadius: moderateScale(40),
-              marginTop: moderateScale(80),
-            }}
-          />
+          <Image source={images.USER} style={styles.localImage} />
         )}
       </View>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <View style={{marginTop: moderateScale(20)}}>
+        <View style={styles.userContainer}>
           <View>{name ? <Text>{name}</Text> : <Text>{userName}</Text>}</View>
         </View>
-        <View style={{marginTop: moderateScale(10)}}>
+        <View style={styles.updateProfileContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate(routes.UPDATE_PROFILE_SCREEN)}>
-            <Text style={{textDecorationLine: 'underline'}}>
-              Update Profile
-            </Text>
+            <Text style={styles.updateProfile}>Update Profile</Text>
           </TouchableOpacity>
         </View>
-        <View style={{marginTop: moderateScale(10)}}>
+        <View style={styles.changeProfileContainer}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate(routes.CHANGE_PROFILE_PICTURE, {
                 profileImageUrl: profileImageUrl,
               })
             }>
-            <Text style={{textDecorationLine: 'underline'}}>
+            <Text style={styles.titleChangeProfile}>
               Change Profile Picture
             </Text>
           </TouchableOpacity>
@@ -102,7 +84,7 @@ const ProfileScreen = () => {
       </View>
       <FlatList
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{marginTop: moderateScale(80)}}
+        contentContainerStyle={styles.contentContainer}
         data={profileData}
         renderItem={({item, index}) => {
           return (
@@ -124,21 +106,10 @@ const ProfileScreen = () => {
                 }
               }}
               activeOpacity={0.7}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                flex: 1,
-                marginVertical: moderateScale(10),
-              }}>
-              <Image
-                style={{width: moderateScale(20), height: moderateScale(20)}}
-                source={item.image}
-              />
-              <Text style={{width: '84%'}}>{item?.title}</Text>
-              <Image
-                style={{width: moderateScale(14), height: moderateScale(14)}}
-                source={item.icon}
-              />
+              style={styles.touchable}>
+              <Image style={styles.imageStyle} source={item.image} />
+              <Text style={styles.titleStyle}>{item?.title}</Text>
+              <Image style={styles.iconStyle} source={item.icon} />
             </TouchableOpacity>
           );
         }}
